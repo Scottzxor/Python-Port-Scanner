@@ -1,0 +1,69 @@
+from __future__ import print_function
+import sys, warnings
+import csv
+import deepsecurity
+from deepsecurity.rest import ApiException
+from pprint import pprint
+from twilio.rest import Client
+
+# Setup
+if not sys.warnoptions:
+	warnings.simplefilter("ignore")
+configuration = deepsecurity.Configuration()
+configuration.host = 'https://cloudone.trendmicro.com/api'
+
+#establishing user variable for
+apikey = input()
+
+#Could replace api secret key with variable placeholder for user to enter to connect their own Cloud One.
+
+# Authentication
+configuration.api_key['api-secret-key'] = '032B627B-40C9-5EB7-48C9-7F0202A7BD78:478DB08F-D0E1-99C4-E4D2-7738FA7F9CA5:nWXSkJHPXla9e4usYJyYz+EpUBLar3jHea5K7lJFfv4='
+
+# Initialization
+# Set Any Required Values
+api_instance = deepsecurity.ComputersApi(deepsecurity.ApiClient(configuration))
+api_version = 'v1'
+expand_options = deepsecurity.Expand()
+expand_options.add(expand_options.none)
+expand = expand_options.list()
+overrides = False
+
+#api list of computers statuses printed.
+try:
+	api_response = api_instance.list_computers(api_version, expand=expand, overrides=overrides)
+	#print(api_response)
+except ApiException as e:
+	print("An exception occurred when calling ComputersApi.list_computers: %s\n" % e)
+
+#Creating variable for csv output
+csvOutput = "pythonDSAutomation.csv"
+
+apiList = str(api_response).split(",")
+
+#Extracting desired stuff via pop and position, since json format is difficult to work with. Only works with a single computer. Though, maybe multiples could be used.
+comp1Status = apiList.pop(11)
+comp1Name = apiList.pop(19)
+comp1Policy = apiList.pop(31)
+comp1Platform = apiList.pop(30)
+
+#Writing only desired variables to csv, only if list is different from tuple.
+with open(csvOutput, "w", newline='') as csvOutputWriter:
+    writer = csv.writer(csvOutputWriter)
+    writer.writerow([comp1Name, comp1Platform, comp1Policy, comp1Status])
+
+ # Your Account SID from twilio.com/console
+account_sid = "AC20ec1925ea04e34829641c828d10ea0e"
+ # Your Auth Token from twilio.com/console
+auth_token  = "REDACTED"
+
+client = Client(account_sid, auth_token)
+
+message = client.messages.create(
+    # My Twilio-verified (only way it works) phone number
+to= + #REDACTED,
+    # free trial account.
+from_="+18135188403", 
+body="Hello. Here are your Cloud One Computer Settings. If you did not make this change, please see an admin")
+
+print(message.sid)
