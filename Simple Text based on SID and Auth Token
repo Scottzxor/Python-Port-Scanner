@@ -1,0 +1,19 @@
+from twilio.rest import Client
+
+# Your Account SID from twilio.com/console
+account_sid = "AC20ec1925ea04e34829641c828d10ea0e"
+# Your Auth Token from twilio.com/console
+auth_token  = "3c2f483436ef7d8a38ac662459491cdc"
+
+name = input("Please enter your name for this SMS: ")
+
+client = Client(account_sid, auth_token)
+
+message = client.messages.create(
+    # My Twilio-verified (only way it works) phone number
+    to=, 
+    # free trial account.
+    from_="+18135188403", 
+    body="Hello from " + name + "'s Python!")
+
+print(message.sid)
