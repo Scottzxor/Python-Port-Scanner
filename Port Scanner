@@ -18,12 +18,12 @@ subprocess.run('cls', shell=True)
 # First, accept input from user to input the host to scan.
 externalServer = input("Enter a DNS host name or IP to scan: ")
 # Take that variable and use it as an argument to the function that will resolve the DNS to IP.
-externalServerIP = socket.gethostbyname(externalServer)
+hostIP = socket.gethostbyname(externalServer)
 
 # Print a Banner providing the user with the info about the scan
 print()
 print("-" * 60)
-print("Please wait, scanning remote host", externalServerIP)
+print("Please wait, scanning remote host", hostIP)
 print("-" * 60)
 
 # Check the starting time of the scan
@@ -36,7 +36,7 @@ try:
         # Use AF_INET to begin IPv4, then SOCK_STREAM to use TCP handshake.
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # Test whether the Python socket-to-host-socket connection is successful. If so, it will return 0.
-        result = sock.connect_ex((externalServerIP, port))
+        result = sock.connect_ex((hostIP, port))
         if result == 0:
             print("Port {}:           Open".format(port))
         sock.close()
