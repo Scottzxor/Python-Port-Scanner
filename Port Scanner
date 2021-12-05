@@ -32,7 +32,7 @@ t1 = datetime.now()
 # Use range function to specify ports (It won't scan the final port*, so add one)
 
 try:
-    for port in range(1,1025):
+    for port in range(1, 1025):
         # Use AF_INET to begin IPv4, then SOCK_STREAM to use TCP handshake.
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # Test whether the Python socket-to-host-socket connection is successful. If so, it will return 0.
