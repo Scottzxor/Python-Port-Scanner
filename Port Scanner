@@ -41,7 +41,7 @@ try:
             print("Port {}:           Open".format(port))
         sock.close()
 
-# Doesn't appear to work.
+# Will exit the program if Ctrl+C is pressed, then feed back to user.
 except KeyboardInterrupt:
     print("You pressed Ctrl+C")
     sys.exit()
