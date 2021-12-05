@@ -1,0 +1,30 @@
+# Using Socket library to connect two nodes over a network.
+
+import socket
+import sys
+
+try:
+    # Network socket listens for a connection. We establish a connecting socket here to greet that listening network
+    # AF_INET specifies to use IPv4; SOCK_STREAM specifies to use TCP protocol
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    print("Socket successfully created")
+except socket.error as err:
+    print("Socket creation failed with eror code %s" % (err))
+
+# Default port for socket--not secure, but will access more easily
+
+port = 80
+
+try:
+    # We could replace www.google.com with a variable that takes user input to attempt connections elsewhere.
+    host_ip = socket.gethostname('www.google.com')
+    # gai = get address info. If getting the socket host name fails, this means the address info could not be parsed.
+except socket.gaierror:
+    print("Error. The host could not be resolved.")
+
+# Attempting to connect
+
+s.connect(host_ip, port)
+
+# May need an exception handle here.
+print("The socket has connected")
