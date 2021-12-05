@@ -1,0 +1,43 @@
+# Scott Shaulis
+# 12-05-2021
+# Sending data through socket connection to google.com.
+
+# Importing socket
+from socket import *
+
+# Creating a socket
+server_socket = socket(AF_INET, SOCK_STREAM)
+
+# Server goes through process of bind, listen, accept, and close connections.
+# Reserve any port on your PC for our server to listen for incoming connection requests
+port = 5454
+
+# Step 1: Bind Socket to Port
+# Enter empty string for server to listen for all requests.
+# Specifying an IP here will cause the server to listen only for that IP.
+server_socket.bind(('', port))
+print()
+print("Socket bound to {port}".format(port=port))
+
+# Step 2: Make the bound socket listen for connections.
+# Input an integer value for how many connections to keep open. A 6th connection will be refused.
+# May also adjust for user input for user to input the number of connections they want open.
+server_socket.listen(5)
+print("Socket is now listening for connections")
+
+# Create infinite loop to represent the socket perpetually listening. This will only stop when a connection is made.
+# Listen as long as True = True.
+while True:
+    conn, address = server_socket.accept()
+    print("{address} is now connected to {server_socket}".format(addr=address, server_socket=server_socket))
+
+    # Send thank you to client.
+    # Use the encode function, since strings are stored as unicode by default.
+    # Encode switches the format from unicode to UTF-8, by default, but you can also specify.
+    conn.send("Thank you for connecting".encode())
+
+    # Close the connection, since the test is complete. We could leave it open to transfer data, later.
+    conn.close()
+
+    # Stop the program since the connection is closed and we're in an infinite loop
+    break
