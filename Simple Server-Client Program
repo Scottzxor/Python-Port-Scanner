@@ -37,7 +37,9 @@ while True:
     conn.send("Thank you for connecting".encode())
 
     # Close the connection, since the test is complete. We could leave it open to transfer data, later.
+    # Comment out in order to keep connection open. Add further conditionals to determine when to close the connection.
     conn.close()
 
     # Stop the program since the connection is closed and we're in an infinite loop
+    # Comment out in order to keep connection open.
     break
