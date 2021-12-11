@@ -43,3 +43,4 @@ while True:
     # Stop the program since the connection is closed and we're in an infinite loop
     # Comment out in order to keep connection open.
     break
+    print()
